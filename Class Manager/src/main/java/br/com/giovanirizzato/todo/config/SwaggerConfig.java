@@ -31,10 +31,10 @@ public class SwaggerConfig {
 	    return new ApiInfoBuilder()
 	            .title("Simple Spring Boot REST API")
 	            .description("Um exemplo de aplicação Spring Boot REST API")
-	            .version("1.0.0")
-	            .license("Apache License Version 2.0")
-	            .licenseUrl("https://www.apache.org/licenses/LICENSE-2.0")
-	            .contact(new Contact("Wladimilson", "https://treinaweb.com.br", "contato@treinaweb.com.br"))
+	            .version("0.0.1")
+	            .license("GPL-3.0 license")
+	            .licenseUrl("https://github.com/GiovaniRizzato/Class-manager-backend-spring/blob/main/LICENSE")
+	            .contact(new Contact("Giovani Rizzato", "https://github.com/GiovaniRizzato", "giovanirizzato@gmail.com"))
 	            .build();
 	}
 }

@@ -29,5 +29,5 @@ public class Class {
     private String description;
     
     @OneToMany
-    private Set<TimeSlots> timeslots = new HashSet<>();
+    private Set<TimeSlot> timeslots = new HashSet<>();
 }

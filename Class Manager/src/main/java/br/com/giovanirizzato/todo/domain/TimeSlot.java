@@ -19,7 +19,7 @@ import java.time.LocalTime;
 @Table(name="domain_timeslot")
 @Data
 @NoArgsConstructor
-public class TimeSlots {
+public class TimeSlot {
     
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -31,7 +31,7 @@ public class TimeSlots {
     private LocalTime beginning;
     private LocalTime ending;
     
-    public TimeSlots(DayOfWeek day, LocalTime beginning, LocalTime ending) {
+    public TimeSlot(DayOfWeek day, LocalTime beginning, LocalTime ending) {
     	if(beginning.isAfter(ending))
     		throw new IllegalArgumentException("timeslot.invalidState.beginningAfterEnding");
     	
@@ -58,7 +58,7 @@ public class TimeSlots {
     	return Duration.between(this.beginning, this.ending);
     }
     
-    public boolean checkConflict(TimeSlots other) {
+    public boolean checkConflict(TimeSlot other) {
     	if(this.day != other.day)
     		return false;
     	

@@ -1,41 +1,60 @@
 package br.com.giovanirizzato.todo.resource;
 
-import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
-import br.com.giovanirizzato.todo.domain.TimeSlot;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import br.com.giovanirizzato.todo.domain.DTO.TimeSlotGetDTO;
+import br.com.giovanirizzato.todo.domain.DTO.TimeSlotSetDTO;
+import br.com.giovanirizzato.todo.service.TimeSlotService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-
-import java.time.DayOfWeek;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 @RestController
 @RequestMapping("/timeslot")
 @Api(value = "Question")
 public class TimeSlotResource {
 
-    private List<TimeSlot> times;
+	@Autowired
+	private TimeSlotService service;
 
-    public TimeSlotResource() {
-    	this.times = new ArrayList<>();
-    	this.times.add(new TimeSlot(DayOfWeek.MONDAY, LocalTime.of(3, 30, 0),LocalTime.of(4, 30, 0)));
-    	this.times.add(new TimeSlot(DayOfWeek.MONDAY, LocalTime.of(4, 30, 0),LocalTime.of(5, 30, 0)));
-    	this.times.add(new TimeSlot(DayOfWeek.THURSDAY, LocalTime.of(3, 30, 0),LocalTime.of(4, 30, 0)));
-    }
-    
-    @GetMapping
-    @ApiOperation(value = "Show all the TimeSlots")
-    public Collection<TimeSlot> getAllTimeSlot() {
-        return this.times;
-    }
+	@GetMapping
+	@ApiOperation(value = "Show all the TimeSlots")
+	public ResponseEntity<List<TimeSlotGetDTO>> getAllTimeSlot() {
+		return ResponseEntity
+			.ok()
+			.body(service.findAll().stream().map(TimeSlotGetDTO :: new).toList());
+	}
 
-    @GetMapping("/{id}")
-    @ApiOperation(value = "Retorna TimeSlot com 'Id'")
-    public TimeSlot getTimeSlotById(@PathVariable("id") final int id) {
-        return this.times.get(id);
-    }
+	@GetMapping("/{id}")
+	@ApiOperation(value = "Retorna TimeSlot com 'Id'")
+	public ResponseEntity<TimeSlotGetDTO> getTimeSlotById(@PathVariable("id") final int id) {
+		return ResponseEntity
+				.ok()
+				.body(new TimeSlotGetDTO(service.findById(id)));
+	}
+	
+	@PostMapping
+	@ApiOperation(value = "Insere TimeSlot novo")
+	public ResponseEntity<TimeSlotGetDTO> newTimeSlot(@RequestBody TimeSlotSetDTO dto) {
+		return ResponseEntity
+				.ok()
+				.body(new TimeSlotGetDTO(service.insert(dto.toTimeSlot())));
+	}
+	
+	@PutMapping("/{id}")
+	@ApiOperation(value = "Insere TimeSlot novo")
+	public ResponseEntity<TimeSlotGetDTO> setTimeSlot(@PathVariable("id") final int id, @RequestBody TimeSlotSetDTO dto) {
+		return ResponseEntity
+				.ok()
+				.body(new TimeSlotGetDTO(service.edit(id, dto.toTimeSlot())));
+	}
 }

@@ -1,5 +1,9 @@
 package br.com.giovanirizzato.todo.domain;
 
+import java.time.DayOfWeek;
+import java.time.Duration;
+import java.time.LocalTime;
+
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -12,10 +16,6 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.time.DayOfWeek;
-import java.time.Duration;
-import java.time.LocalTime;
 
 @Getter
 @Setter
@@ -67,8 +67,8 @@ public class TimeSlot {
     		return false;
     	
     	//It's not consider a conflict if starts exatly as thr "other" ends and vice-versa
-    	boolean endsBeforeThis = other.ending.isBefore(this.beginning) && !this.beginning.equals(other.ending);
-    	boolean beginsAfterThis = other.beginning.isAfter(this.ending) && !this.ending.equals(other.beginning);
+    	boolean endsBeforeThis = other.ending.isBefore(this.beginning) || this.beginning.equals(other.ending);
+    	boolean beginsAfterThis = other.beginning.isAfter(this.ending) || this.ending.equals(other.beginning);
     	return endsBeforeThis || beginsAfterThis;
     }
     

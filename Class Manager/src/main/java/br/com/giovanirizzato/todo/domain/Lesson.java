@@ -15,15 +15,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name="domain_class")
+@Table(name="domain_lesson")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Class {
+public class Lesson {
     
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private long Id;
+    private Integer id;
     
     private String name;
     private String description;

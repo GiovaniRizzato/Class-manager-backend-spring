@@ -33,8 +33,12 @@ public class LessonService {
 		lesson.setId(null);
 		final Lesson created = this.repository.save(lesson);
 		
-		this.convertTimeSlotIds(created, setDto);
-		return this.repository.save(created);
+		if(setDto.getTimeslotsIds() != null) {
+			this.convertTimeSlotIds(created, setDto);
+			return this.repository.save(created);
+		}else {
+			return created;
+		}
 	}
 	
 	public Lesson edit(int id, LessonSetDTO setDto) {
